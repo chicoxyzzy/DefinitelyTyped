@@ -3,6 +3,7 @@
 // Definitions by: 01alchemist <https://twitter.com/01alchemist>
 //                 Wink Saville <wink@saville.com>
 //                 Periklis Tsirakidis <https://github.com/periklis>
+//                 Sergey Rubanov <https://twitter.com/chicoxyzzy>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /**
@@ -22,11 +23,24 @@ declare namespace WebAssembly {
         kind: string;
     }>;
 
+    type BufferSource = 
+        | ArrayBuffer
+        | DataView
+        | Int8Array
+        | Int16Array
+        | Int32Array
+        | Uint8Array
+        | Uint16Array
+        | Uint32Array
+        | Uint8ClampedArray
+        | Float32Array
+        | Float64Array;
+
     /**
      * WebAssembly.Module
      */
     class Module {
-        constructor(bufferSource: ArrayBuffer | Uint8Array);
+        constructor(bufferSource: ArrayBuffer | TypedArray);
         static customSections(module: Module, sectionName: string): ArrayBuffer[];
         static exports(module: Module): Imports;
         static imports(module: Module): Exports;
@@ -99,15 +113,15 @@ declare namespace WebAssembly {
         toString(): string;
     }
 
-    function compile(bufferSource: ArrayBuffer | Uint8Array): Promise<Module>;
+    function compile(bufferSource: BufferSource): Promise<Module>;
 
     interface ResultObject {
         module: Module;
         instance: Instance;
     }
 
-    function instantiate(bufferSource: ArrayBuffer | Uint8Array, importObject?: any): Promise<ResultObject>;
+    function instantiate(bufferSource: BufferSource, importObject?: any): Promise<ResultObject>;
     function instantiate(module: Module, importObject?: any): Promise<Instance>;
 
-    function validate(bufferSource: ArrayBuffer | Uint8Array): boolean;
+    function validate(bufferSource: BufferSource): boolean;
 }
